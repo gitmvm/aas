@@ -11,7 +11,7 @@ x-swap: &swap
   ports: ["127.0.0.1:${LLAMA_PORT:-8080}:8080"]
   volumes:
     - ./models:/models:ro
-    - ./llama-swap.yaml:/app/config.yaml:ro
+    - ./llama-swap.yaml:/etc/llama-swap/config/config.yaml:ro
   healthcheck:
     test: ["CMD", "curl", "-sf", "http://localhost:8080/health"]
     interval: 5s
@@ -22,14 +22,17 @@ x-swap: &swap
 services:
   llama-swap:
     <<: *swap
-    image: ghcr.io/mostlygeek/llama-swap:${SWAP_TAG:-v261-vulkan-b11347}
+    image: ghcr.io/mostlygeek/llama-swap:${SWAP_TAG:-unified-cuda13}
     profiles: [gpu]
     environment:
       NGL: "99"
-    devices:
-      - /dev/dri:/dev/dri
-    group_add:
-      - "${RENDER_GID:-0}"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
   llama-swap-cpu:
     <<: *swap

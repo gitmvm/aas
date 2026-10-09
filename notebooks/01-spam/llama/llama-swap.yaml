@@ -10,15 +10,15 @@ models:
   nomic:
     name: Nomic Embed Text v2 MoE (Q8_0)
     cmd: >
-      /app/llama-server --port ${PORT} -m /models/nomic-embed-text-v2-moe.Q8_0.gguf
-      --embeddings -c 512 -b 512 -ub 512 -np 1 -ngl ${env.NGL}
+      /usr/local/bin/llama-server --port ${PORT} -m /models/nomic-embed-text-v2-moe.Q8_0.gguf
+      --embeddings -c 512 -b 512 -ub 512 -np 1 -ngl ${env.NGL}   
     checkEndpoint: /health
     unlisted: true # callable, but not in /v1/models: Open WebUI should offer chat models only
   minilm:
     name: all-MiniLM-L6-v2 (F16, CPU)
     cmd: >
-      /app/llama-server --port ${PORT} -m /models/all-MiniLM-L6-v2-ggml-model-f16.gguf
-      --embeddings --pooling mean -c 512 -b 512 -ub 512 -np 1 -ngl 0
+      /usr/local/bin/llama-server --port ${PORT} -m /models/all-MiniLM-L6-v2-ggml-model-f16.gguf
+      --embeddings --pooling mean -c 512 -b 512 -ub 512 -np 1 -ngl 0   
     checkEndpoint: /health
     unlisted: true
 
@@ -28,8 +28,8 @@ models:
   chat:
     name: Gemma 4 E2B (QAT Q4_K_XL)
     cmd: >
-      /app/llama-server --port ${PORT} -m /models/gemma-4-E2B-it-qat-UD-Q4_K_XL.gguf
-      --jinja --reasoning off -c 8192 -np 1 -ngl ${env.NGL}
+      /usr/local/bin/llama-server --port ${PORT} -m /models/gemma-4-E2B-it-qat-UD-Q4_K_XL.gguf
+      --jinja --reasoning off -c 8192 -np 1 -ngl ${env.NGL}   
     checkEndpoint: /health
     ttl: 600
 
